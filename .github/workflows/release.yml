@@ -51,7 +51,7 @@ jobs:
           build-args: |
             VERSION=${{ env.TAG }}
             GitCommit=${{ github.sha }}
-          context: .
+          context: 15
           push: true
           tags: |
             ghcr.io/${{ env.REPO_OWNER }}/postgres-kafka-fdw:${{ github.sha }}
