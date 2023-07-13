@@ -35,6 +35,7 @@ RUN set -xe; \
 	apt-get install -y --no-install-recommends \
 		"postgresql-${PG_MAJOR}-pgaudit" \
 		"postgresql-${PG_MAJOR}-pg-failover-slots" \
+		librdkafka1 librdkafka++1 \
 	; \
 	rm -fr /tmp/* ; \
 	rm -rf /var/lib/apt/lists/*;
@@ -47,9 +48,8 @@ RUN set -xe; \
 		python3-psycopg2 \
 		python3-setuptools \
 	; \
-	pip3 install --upgrade pip; \
-# TODO: Remove --no-deps once https://github.com/pypa/pip/issues/9644 is solved
-	pip3 install --no-deps -r requirements.txt; \
+	pip3 install --upgrade pip --break-system-packages; \
+	pip3 install --no-deps -r requirements.txt --break-system-packages; \
 	rm -rf /var/lib/apt/lists/*;
 
 COPY --from=build /usr/lib/postgresql/15/lib/bitcode/kafka_fdw /usr/lib/postgresql/15/lib/bitcode/kafka_fdw
